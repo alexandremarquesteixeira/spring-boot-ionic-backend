@@ -1,5 +1,6 @@
 package com.nelioalves.cursomc.resources.exception;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -40,4 +41,10 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<StandartError> authorization(AuthenticationException e, HttpServletRequest request){
+	
+		StandartError err = new StandartError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
 }
